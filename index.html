@@ -208,7 +208,7 @@
     <div class="overlay" id="overlay"></div>
     <div class="popup" id="popup">
         <p>Խնդրում ենք թույլատրել տեղադրության հասանելիությունը՝ օգտագործելու համար տեղադրության կոճակը:</p>
-        <button id="closePopup">Հասկանալի է</button>
+        <button id="acceptLocation">Հաստատել</button>
     </div>
 
     <button class="language-switcher" id="languageBtn">AM</button>
@@ -505,7 +505,7 @@
         // Show popup on page load
         const popup = document.getElementById('popup');
         const overlay = document.getElementById('overlay');
-        const closePopup = document.getElementById('closePopup');
+        const acceptLocation = document.getElementById('acceptLocation');
 
         // Check Geolocation permission on page load
         window.addEventListener('load', async () => {
@@ -520,10 +520,17 @@
             }
         });
 
-        // Close popup
-        closePopup.addEventListener('click', () => {
+        // Request location permission when "Accept" is clicked
+        acceptLocation.addEventListener('click', () => {
             popup.style.display = 'none';
             overlay.style.display = 'none';
+            getUserLocation().then(location => {
+                if (location) {
+                    console.log("Location permission granted:", location);
+                } else {
+                    console.log("Location permission denied or not supported.");
+                }
+            });
         });
 
         // Initialize with default language
